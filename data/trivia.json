@@ -1,0 +1,122 @@
+[
+  {
+    "question": "What is the capital of France?",
+    "options": ["Berlin", "Madrid", "Paris", "Rome"],
+    "answer": "Paris",
+    "category": "Geography"
+  },
+  {
+    "question": "Which planet is known as the Red Planet?",
+    "options": ["Earth", "Mars", "Jupiter", "Saturn"],
+    "answer": "Mars",
+    "category": "Science"
+  },
+  {
+    "question": "Who wrote 'Romeo and Juliet'?",
+    "options": ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"],
+    "answer": "William Shakespeare",
+    "category": "Literature"
+  },
+  {
+    "question": "What is the largest ocean on Earth?",
+    "options": ["Atlantic", "Indian", "Arctic", "Pacific"],
+    "answer": "Pacific",
+    "category": "Geography"
+  },
+  {
+    "question": "In what year did World War II end?",
+    "options": ["1943", "1944", "1945", "1946"],
+    "answer": "1945",
+    "category": "History"
+  },
+  {
+    "question": "What is the chemical symbol for gold?",
+    "options": ["Go", "Gd", "Au", "Ag"],
+    "answer": "Au",
+    "category": "Science"
+  },
+  {
+    "question": "How many sides does a hexagon have?",
+    "options": ["5", "6", "7", "8"],
+    "answer": "6",
+    "category": "Math"
+  },
+  {
+    "question": "Which country invented pizza?",
+    "options": ["France", "Greece", "Spain", "Italy"],
+    "answer": "Italy",
+    "category": "Food"
+  },
+  {
+    "question": "What is the fastest land animal?",
+    "options": ["Lion", "Horse", "Cheetah", "Leopard"],
+    "answer": "Cheetah",
+    "category": "Animals"
+  },
+  {
+    "question": "What programming language is known as the 'language of the web'?",
+    "options": ["Python", "Java", "JavaScript", "C++"],
+    "answer": "JavaScript",
+    "category": "Technology"
+  },
+  {
+    "question": "Which element has the atomic number 1?",
+    "options": ["Helium", "Oxygen", "Hydrogen", "Carbon"],
+    "answer": "Hydrogen",
+    "category": "Science"
+  },
+  {
+    "question": "Who painted the Mona Lisa?",
+    "options": ["Michelangelo", "Raphael", "Leonardo da Vinci", "Donatello"],
+    "answer": "Leonardo da Vinci",
+    "category": "Art"
+  },
+  {
+    "question": "What is the square root of 144?",
+    "options": ["10", "11", "12", "13"],
+    "answer": "12",
+    "category": "Math"
+  },
+  {
+    "question": "Which country is the largest by area?",
+    "options": ["USA", "China", "Russia", "Canada"],
+    "answer": "Russia",
+    "category": "Geography"
+  },
+  {
+    "question": "What is the tallest mountain in the world?",
+    "options": ["K2", "Kangchenjunga", "Mount Everest", "Lhotse"],
+    "answer": "Mount Everest",
+    "category": "Geography"
+  },
+  {
+    "question": "Which gas do plants absorb from the atmosphere?",
+    "options": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+    "answer": "Carbon Dioxide",
+    "category": "Science"
+  },
+  {
+    "question": "How many continents are there on Earth?",
+    "options": ["5", "6", "7", "8"],
+    "answer": "7",
+    "category": "Geography"
+  },
+  {
+    "question": "What is the most spoken language in the world?",
+    "options": ["English", "Spanish", "Mandarin Chinese", "Hindi"],
+    "answer": "Mandarin Chinese",
+    "category": "Language"
+  },
+  {
+    "question": "What organ pumps blood through the body?",
+    "options": ["Liver", "Lungs", "Kidney", "Heart"],
+    "answer": "Heart",
+    "category": "Biology"
+  },
+  {
+    "question": "Which planet has the most moons?",
+    "options": ["Jupiter", "Saturn", "Uranus", "Neptune"],
+    "answer": "Saturn",
+    "category": "Science"
+  }
+]

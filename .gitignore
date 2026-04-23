@@ -1,0 +1,5 @@
+*.sqlite3
+tokens/
+__pycache__/
+*.pyc
+*.log

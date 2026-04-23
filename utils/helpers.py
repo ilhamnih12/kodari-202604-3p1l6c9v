@@ -1,19 +1,8 @@
-import discord
 import json
 import os
 
 ECONOMY_FILE = "data/economy.json"
 FEEDBACK_FILE = "data/feedback.json"
-
-COLORS = {
-    "primary": 0x5865F2,
-    "success": 0x57F287,
-    "error": 0xED4245,
-    "warning": 0xFEE75C,
-    "info": 0x5DADE2,
-    "fun": 0xFF79C6,
-    "gold": 0xF1C40F,
-}
 
 CATEGORY_EMOJIS = {
     "Games": "🎮",
@@ -39,20 +28,18 @@ def save_economy(data):
     with open(ECONOMY_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
-def get_balance(user_id: int):
+def get_balance(user_id: str):
     data = load_economy()
-    key = str(user_id)
-    if key not in data:
-        data[key] = {"balance": 0, "last_daily": None, "inventory": []}
+    if user_id not in data:
+        data[user_id] = {"balance": 0, "last_daily": None, "inventory": []}
         save_economy(data)
-    return data[key]
+    return data[user_id]
 
-def update_user(user_id: int, updates: dict):
+def update_user(user_id: str, updates: dict):
     data = load_economy()
-    key = str(user_id)
-    if key not in data:
-        data[key] = {"balance": 0, "last_daily": None, "inventory": []}
-    data[key].update(updates)
+    if user_id not in data:
+        data[user_id] = {"balance": 0, "last_daily": None, "inventory": []}
+    data[user_id].update(updates)
     save_economy(data)
 
 def load_feedback():
@@ -65,14 +52,20 @@ def save_feedback(data):
     with open(FEEDBACK_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
-def make_embed(title: str, description: str = "", color_key: str = "primary", footer: str = "FunBot") -> discord.Embed:
-    embed = discord.Embed(
-        title=title,
-        description=description,
-        color=COLORS.get(color_key, COLORS["primary"])
-    )
-    embed.set_footer(text=footer)
-    return embed
+def make_embed(title: str, description: str = "", color_key: str = "primary", footer: str = "FunBot") -> str:
+    """
+    Since WhatsApp does not support rich embeds, we format it as a clean text block.
+    """
+    lines = []
+    lines.append(f"*{title}*")
+    lines.append("────────────────")
+    if description:
+        lines.append(description)
+        lines.append("────────────────")
+    if footer:
+        lines.append(f"_{footer}_")
+
+    return "\n".join(lines)
 
 def load_trivia():
     with open("data/trivia.json", "r") as f:

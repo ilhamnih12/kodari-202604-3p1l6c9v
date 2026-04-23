@@ -1,8 +1,12 @@
-import discord
-from discord.ext import commands
 import os
 import logging
 from dotenv import load_dotenv
+
+from neonize.client import NewClient
+from neonize.events import ConnectedEv, MessageEv, QREv
+
+# Command handlers imports
+from commands import fun, economy, menu, games, utility, math, trivia, anime, memes, moderation, social
 
 load_dotenv()
 
@@ -10,48 +14,71 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 )
-log = logging.getLogger("FunBot")
+log = logging.getLogger("FunBot-WhatsApp")
 
-COGS = [
-    "cogs.games",
-    "cogs.trivia",
-    "cogs.memes",
-    "cogs.fun",
-    "cogs.economy",
-    "cogs.utility",
-    "cogs.moderation",
-    "cogs.social",
-    "cogs.math",
-    "cogs.anime",
-    "cogs.menu",
-]
+client = NewClient("db.sqlite3")
 
-class FunBot(commands.Bot):
-    def __init__(self):
-        intents = discord.Intents.all()
-        super().__init__(command_prefix="!", intents=intents, help_command=None)
+COMMANDS = {}
 
-    async def setup_hook(self):
-        for cog in COGS:
-            try:
-                await self.load_extension(cog)
-                log.info(f"Loaded cog: {cog}")
-            except Exception as e:
-                log.error(f"Failed to load cog {cog}: {e}")
-        synced = await self.tree.sync()
-        log.info(f"Synced {len(synced)} slash commands.")
+def register_commands():
+    # Register commands mapping
+    COMMANDS.update(fun.get_commands())
+    COMMANDS.update(economy.get_commands())
+    COMMANDS.update(menu.get_commands())
+    COMMANDS.update(games.get_commands())
+    COMMANDS.update(utility.get_commands())
+    COMMANDS.update(math.get_commands())
+    COMMANDS.update(trivia.get_commands())
+    COMMANDS.update(anime.get_commands())
+    COMMANDS.update(memes.get_commands())
+    COMMANDS.update(moderation.get_commands())
+    COMMANDS.update(social.get_commands())
 
-    async def on_ready(self):
-        await self.change_presence(
-            activity=discord.Activity(
-                type=discord.ActivityType.playing,
-                name="/menu for commands"
-            )
-        )
-        log.info(f"Logged in as {self.user} ({self.user.id})")
+@client.event(QREv)
+def on_qr(client: NewClient, event: QREv):
+    log.info("Scan the QR Code to login!")
 
-    async def on_command_error(self, ctx, error):
-        log.error(f"Command error: {error}")
+@client.event(ConnectedEv)
+def on_connected(client: NewClient, event: ConnectedEv):
+    log.info("Connected to WhatsApp!")
 
-bot = FunBot()
-bot.run(os.getenv("DISCORD_TOKEN"))
+@client.event(MessageEv)
+def on_message(client: NewClient, message: MessageEv):
+    # Ignore our own messages
+    if message.info.messageSource.isFromMe:
+        return
+
+    # Extract text from message
+    text = ""
+    if message.message.conversation:
+        text = message.message.conversation
+    elif message.message.extendedTextMessage and message.message.extendedTextMessage.text:
+        text = message.message.extendedTextMessage.text
+
+    text = text.strip()
+
+    if not text.startswith("/"):
+        return
+
+    # Basic arg parsing
+    parts = text.split(" ")
+    command_name = parts[0][1:].lower() # remove slash
+    args = parts[1:]
+
+    # Parse sender user ID (JID)
+    sender = message.info.sender
+    sender_jid = f"{sender.user}@{sender.server}"
+
+    log.info(f"Command received: {command_name} from {sender_jid}")
+
+    if command_name in COMMANDS:
+        try:
+            COMMANDS[command_name](client, message, args, sender_jid)
+        except Exception as e:
+            log.error(f"Error executing command {command_name}: {e}")
+            client.reply_message(f"Error: {str(e)}", message)
+
+if __name__ == "__main__":
+    log.info("Starting WhatsApp bot...")
+    register_commands()
+    client.connect()
